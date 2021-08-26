@@ -30,7 +30,11 @@ public class Character : MonoBehaviour
     {
         _direction = Input.GetAxisRaw("Horizontal");
 
-        _Sprite.flipX = _direction > 0f;
+        if (_direction != 0)
+        {
+            _Sprite.flipX = _direction > 0f;
+        }
+
         _animator.SetBool("isRun", _direction != 0);
 
         if (!_isFly && Input.GetKeyDown(KeyCode.Space))
@@ -46,19 +50,17 @@ public class Character : MonoBehaviour
 
     private void FixedUpdate()
     {
-            _rb.velocity = new Vector2(_direction * _speed, _rb.velocity.y);
+        _rb.velocity = new Vector2(_direction * _speed, _rb.velocity.y);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         _isFly = false;
-        _animator.SetBool("isJump", false);
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         _isFly = true;
-        _animator.SetBool("isJump", true);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
